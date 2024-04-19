@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://31bavfc0phgu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ctpun"]
+size = Vector3(1, 1, 21)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qrudp"]
+size = Vector3(1, 1, 21)
+
+[node name="long_wall" type="StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+collision_mask = 7
+
+[node name="long_wall_collision" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_ctpun")
+
+[node name="long_wall_mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_qrudp")

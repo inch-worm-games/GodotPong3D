@@ -1,0 +1,35 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Inchworm Games Pong3D"
+config/tags=PackedStringArray("3d", "pong")
+run/main_scene="res://scenes/game_area.tscn"
+config/features=PackedStringArray("4.2", "Forward Plus")
+config/icon="res://icon.svg"
+
+[dotnet]
+
+project/assembly_name="1 Pong Way"
+
+[layer_names]
+
+3d_render/layer_1="wall"
+3d_render/layer_2="ball"
+3d_render/layer_3="paddle"
+3d_render/layer_4="scoring"
+3d_physics/layer_1="wall"
+3d_physics/layer_2="ball"
+3d_physics/layer_3="paddle"
+
+[physics]
+
+common/physics_ticks_per_second=120

@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://cutvphemtxtt4"]
+
+[ext_resource type="Script" path="res://scripts/ball.gd" id="1_400eb"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2j4jh"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pxnxi"]
+radius = 0.25
+
+[sub_resource type="Shader" id="Shader_n0key"]
+code = "shader_type spatial;
+render_mode unshaded;
+
+uniform sampler2D noise_tex; // Noise texture for randomness
+uniform vec4 lightning_color = vec4(0.8, 0.8, 1.0, 1.0); // Color of the lightning
+uniform float flicker_intensity = 1.0; // Intensity of the flickering effect
+
+float random(vec2 p) {
+    return fract(sin(dot(p.xy, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+void fragment() {
+    vec2 uv = UV;
+    float time = TIME * 0.5;
+
+    // Random flickering
+    float flicker = smoothstep(0.4, 0.6, random(uv + time));
+
+    // Noise-based lightning pattern
+    float noiseValue = texture(noise_tex, uv * 10.0 + time).r;
+    float lightning = smoothstep(0.7, 0.8, noiseValue) * flicker * flicker_intensity;
+
+    ALBEDO = lightning_color.rgb;
+    ALPHA = lightning;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fry53"]
+render_priority = 0
+shader = SubResource("Shader_n0key")
+shader_parameter/lightning_color = Vector4(0.8, 0.8, 1, 1)
+shader_parameter/flicker_intensity = 1.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_bastk"]
+material = SubResource("ShaderMaterial_fry53")
+
+[node name="ball" type="RigidBody3D" groups=["ball"]]
+collision_layer = 2
+collision_mask = 7
+physics_material_override = SubResource("PhysicsMaterial_2j4jh")
+gravity_scale = 0.0
+max_contacts_reported = 5
+contact_monitor = true
+script = ExtResource("1_400eb")
+
+[node name="ball_collision" type="CollisionShape3D" parent="." groups=["ball"]]
+shape = SubResource("SphereShape3D_pxnxi")
+
+[node name="ball_mesh" type="MeshInstance3D" parent="ball_collision" groups=["ball"]]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+layers = 2
+mesh = SubResource("SphereMesh_bastk")
+
+[connection signal="body_entered" from="." to="." method="_on_Ball_body_entered"]

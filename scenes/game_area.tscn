@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://c5qfnkma4i31r"]
+
+[ext_resource type="PackedScene" uid="uid://31bavfc0phgu" path="res://scenes/long_wall.tscn" id="1_t2edq"]
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_wtqux"]
+[ext_resource type="PackedScene" uid="uid://eft5rx0rdujw" path="res://scenes/short_wall.tscn" id="2_gsssu"]
+[ext_resource type="PackedScene" uid="uid://c5x7ipmf711p3" path="res://scenes/paddle.tscn" id="4_hwabv"]
+[ext_resource type="PackedScene" uid="uid://dkk4y6vqld5gb" path="res://scenes/paddle_2.tscn" id="5_tkdf2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yc4fn"]
+size = Vector3(1, 10, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4nv87"]
+size = Vector3(1, 10, 1)
+
+[node name="game_area" type="Node3D"]
+script = ExtResource("1_wtqux")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.151)
+
+[node name="long_wall_bottom" parent="." groups=["wall"] instance=ExtResource("1_t2edq")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -5, 0)
+
+[node name="long_wall_top" parent="." groups=["wall"] instance=ExtResource("1_t2edq")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 5, 0)
+
+[node name="short_wall_left" parent="." groups=["wall"] instance=ExtResource("2_gsssu")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -10, 0, 0)
+
+[node name="short_wall_right" parent="." groups=["wall"] instance=ExtResource("2_gsssu")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 10, 0, 0)
+
+[node name="paddle" parent="." groups=["paddle"] instance=ExtResource("4_hwabv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
+
+[node name="paddle_2" parent="." instance=ExtResource("5_tkdf2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+
+[node name="p2_score_zone" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0)
+collision_layer = 8
+collision_mask = 2
+
+[node name="p2_score_zone" type="CollisionShape3D" parent="p2_score_zone"]
+shape = SubResource("BoxShape3D_yc4fn")
+
+[node name="p1_score_zone" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 0)
+collision_layer = 8
+collision_mask = 2
+
+[node name="p1_score_zone" type="CollisionShape3D" parent="p1_score_zone"]
+shape = SubResource("BoxShape3D_4nv87")
+
+[connection signal="body_entered" from="p2_score_zone" to="." method="on_p2_score_zone_body_entered"]
+[connection signal="body_entered" from="p1_score_zone" to="." method="on_p1_score_zone_body_entered"]
