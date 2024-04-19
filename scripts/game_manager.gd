@@ -50,14 +50,14 @@ func spawn_ball():
 func on_p1_score_zone_body_entered(body):
 	# Increments player 1's score when the ball enters the scoring zone
 	if body == ball_instance:
-		player1_score += 1
+		player2_score += 1
 		update_score_display()
 		respawn_or_free_ball()
 
 func on_p2_score_zone_body_entered(body):
 	# Increments player 2's score when the ball enters the scoring zone
 	if body == ball_instance:
-		player2_score += 1
+		player1_score += 1
 		update_score_display()
 		respawn_or_free_ball()
 
