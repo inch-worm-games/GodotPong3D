@@ -15,8 +15,17 @@ size = Vector3(1, 10, 1)
 [node name="game_area" type="Node3D"]
 script = ExtResource("1_wtqux")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.151)
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Player1ScoreLabel" type="Label" parent="HUD"]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Player2ScoreLabel" type="Label" parent="HUD"]
+offset_left = 658.0
+offset_right = 698.0
+offset_bottom = 23.0
+horizontal_alignment = 2
 
 [node name="long_wall_bottom" parent="." groups=["wall"] instance=ExtResource("1_t2edq")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -5, 0)
@@ -35,6 +44,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
 
 [node name="paddle_2" parent="." instance=ExtResource("5_tkdf2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.151)
+fov = 100.0
+size = 0.1
+near = 0.1
+far = 3000.0
 
 [node name="p2_score_zone" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0)

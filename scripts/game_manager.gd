@@ -11,14 +11,20 @@ var player1_score = 0
 var player2_score = 0
 
 # Toggle for auto respawning the ball
-var auto_respawn = false  # Set to true for automatic respawning
+var auto_respawn = false	# Set to true for automatic respawning
 
 # Reference to the paddle node
 var paddle
 
+# UI elements for scores
+@onready var player1_score_label = $HUD/Player1ScoreLabel
+@onready var player2_score_label = $HUD/Player2ScoreLabel
+
 func _ready():
-	# Initialize the paddle; update the path if needed
-	paddle = get_node("paddle")
+	# Attempt to initialize the paddle; update the path if needed
+	paddle = get_node_or_null("Paddle")
+	if not paddle:
+		print("Error: Paddle node not found.")
 
 func _process(delta):
 	# Handles the ball spawning based on the auto_respawn flag
@@ -39,8 +45,7 @@ func spawn_ball():
 
 	# Connects the ball instance to the paddle's signal receiver method
 	if paddle:
-		var callable = Callable(paddle, "_on_ball_hit")
-		ball_instance.connect("ball_hit_paddle", callable)
+		ball_instance.connect("ball_hit_paddle", paddle, "_on_ball_hit")
 	else:
 		print("Paddle not found.")
 
@@ -48,22 +53,25 @@ func on_p1_score_zone_body_entered(body):
 	# Increments player 1's score when the ball enters the scoring zone
 	if body == ball_instance:
 		player1_score += 1
-		print("Player 1 Scored. Score: ", player1_score)
-		# Conditionally respawns the ball based on auto_respawn
-		if auto_respawn:
-			spawn_ball()
-		else:
-			ball_instance.queue_free()
-			ball_instance = null
+		update_score_display()
+		respawn_or_free_ball()
 
 func on_p2_score_zone_body_entered(body):
 	# Increments player 2's score when the ball enters the scoring zone
 	if body == ball_instance:
 		player2_score += 1
-		print("Player 2 Scored. Score: ", player2_score)
-		# Conditionally respawns the ball based on auto_respawn
-		if auto_respawn:
-			spawn_ball()
-		else:
-			ball_instance.queue_free()
-			ball_instance = null
+		update_score_display()
+		respawn_or_free_ball()
+
+func update_score_display():
+	# Updates the text of the score labels
+	player1_score_label.text = "PLAYER  1: " + str(player1_score)
+	player2_score_label.text = "PLAYER  2: " + str(player2_score)
+
+func respawn_or_free_ball():
+	# Respawn or free the ball based on auto_respawn flag
+	if auto_respawn:
+		spawn_ball()
+	else:
+		ball_instance.queue_free()
+		ball_instance = null
