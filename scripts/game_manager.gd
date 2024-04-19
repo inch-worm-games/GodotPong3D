@@ -9,8 +9,6 @@ var ball_instance = null
 # Scores for player 1 and player 2
 var player1_score = 0
 var player2_score = 0
-
-# Toggle for auto respawning the ball
 var auto_respawn = false	# Set to true for automatic respawning
 
 # Reference to the paddle node
