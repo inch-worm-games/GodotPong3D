@@ -10,12 +10,9 @@ To get GodotPong3D running on your local machine, follow these steps:
 - Godot 4.2x
 
 ### Running the Game
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/GodotPong3D.git
+1. Clone the repository: https://github.com/yourusername/GodotPong3D.git
 
-
-Open Godot Engine and import the project.
+Open Godot and import the project.
 Navigate to the project directory and open the project.godot file.
 
 Press space bar to spawn a ball
